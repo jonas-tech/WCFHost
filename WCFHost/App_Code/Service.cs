@@ -9,13 +9,6 @@ using System.Text;
     [ServiceBehavior(ConcurrencyMode = ConcurrencyMode.Single, InstanceContextMode = InstanceContextMode.Single)]
     public class Service : IService
     {
-    public Service()
-    {
-        ServiceHost host = new ServiceHost(typeof(Service));
-        host.Open();
-    }
-
-        
         Dictionary<IServiceClient, string> clientUsernames = new Dictionary<IServiceClient, string>();
 
         string clientMessagecontent = "";
