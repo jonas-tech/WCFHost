@@ -38,20 +38,45 @@ namespace WCFClient
         }
         public void PrintMessage()
         {
-            ChatroomTextBlock.Text += "\n" + viewModel.ReturnServerMessageInViewModel();
+            string Zeilenumbruch = "\n";
+            ChatroomTextBlock.Text = viewModel.ReturnServerMessageInViewModel() + Zeilenumbruch + ChatroomTextBlock.Text;
         }
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
+        {
+            SendMessage();
+        }
+        private void LogInButton_Click(object sender, RoutedEventArgs e)
+        {
+            LoginIn();
+        }
+
+        private void LogInButton_KeyDown(object sender, KeyEventArgs e)
+        {
+            if(e.Key == Key.Enter)
+            {
+                LoginIn();
+            }
+        }
+
+        private void LoginIn()
+        {
+            viewModel.LogIn(UserNameTextBox.Text);
+            LogINScreen.Visibility = Visibility.Hidden;
+            Chatroom.Visibility = Visibility.Visible;
+            SendMessageTextBox.Focus();
+        }
+
+        private void SendMessage()
         {
             string userMessage;
             userMessage = SendMessageTextBox.Text;
             SendMessageTextBox.Text = "";
             viewModel.SendMessage(userMessage);
         }
-        private void LogInButton_Click(object sender, RoutedEventArgs e)
+
+        private void SendMessageButton_KeyDown(object sender, KeyEventArgs e)
         {
-            viewModel.LogIn(UserNameTextBox.Text);
-            LogINScreen.Visibility = Visibility.Hidden;
-            Chatroom.Visibility = Visibility.Visible;
+            SendMessage();
         }
     }
 }

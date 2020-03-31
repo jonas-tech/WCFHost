@@ -54,7 +54,7 @@
                 <RowDefinition Height="5*"/>
             </Grid.RowDefinitions>
             <Label Content="Welcome by Groupchat" Grid.ColumnSpan="4" VerticalAlignment="Center" HorizontalAlignment="Center"/>
-            <Button Content="Log IN" Grid.Column="1" Grid.Row="1" Name="LogInButton" Click="LogInButton_Click" Opacity="0.4"/>
+            <Button Content="Log IN" Grid.Column="1" Grid.Row="1" Name="LogInButton" Click="LogInButton_Click" Opacity="0.4" Keyboard.KeyDown="LogInButton_KeyDown" IsDefault="True"/>
             <TextBox Text="UserName" Grid.Row="1" Grid.Column="2" VerticalAlignment="Stretch"  Name="UserNameTextBox" SelectionOpacity="1" FontSize="20" FontStyle="Italic" Margin="6"/>
         </Grid>
         <Grid Name="Chatroom" Margin="50" Visibility="Hidden">
@@ -69,11 +69,13 @@
                 <RowDefinition Height="1*"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <TextBlock Name="ChatroomTextBlock" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Chatroom joined"/>
-            <Button Content="Log Off" Name="LogOffButton" Grid.Column="1" Grid.Row="1" Height="29" VerticalAlignment="Top" Click="LogOffButton_Click"/>
-            <Button Content="Send" Name="SendMessageButton" Grid.Column="1" Grid.Row="2" Click="SendMessageButton_Click"/>
-            <TextBox Text="Message" Name="SendMessageTextBox" Grid.RowSpan="2" Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{x:Null}"/>
+            <ScrollViewer>
+                <TextBlock Name="ChatroomTextBlock" Grid.Column="0" Grid.ColumnSpan="2" Grid.Row="0" Text="Chatroom joined" />
+            </ScrollViewer>
 
+            <Button Content="Log Off" Name="LogOffButton" Grid.Column="1" Grid.Row="1" Height="29" VerticalAlignment="Top" Click="LogOffButton_Click"/>
+            <Button Content="Send" Name="SendMessageButton" Grid.Column="1" Grid.Row="2" Click="SendMessageButton_Click" Keyboard.KeyDown="SendMessageButton_KeyDown" IsDefault="True"/>
+            <TextBox Text="Message" Name="SendMessageTextBox" Grid.RowSpan="2" Grid.Row="3" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="{x:Null}" />
         </Grid>
 
     </Grid>

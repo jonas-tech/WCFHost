@@ -41,8 +41,9 @@ namespace WCFClient.Model
 
         public void CreateFullMessage()
         {
-            string dateTime = DateTime.Now.ToString();
-            this.fullMessage = dateTime + " von " + userName + " : " + userMessage;
+            var date = DateTime.Now;
+            string hm = date.Hour + ":" + date.Minute;
+            this.fullMessage = hm + " von " + userName + " : " + userMessage;
             SendFullMessageToInterfaces();
         }
 
