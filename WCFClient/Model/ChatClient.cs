@@ -8,7 +8,7 @@ namespace WCFClient.Model
 {
     public class ChatClient : Proxy.IServiceCallback
     {
-        public Messaging messaging = new Messaging();
+        public Messaging messaging;
 
         public void ServerSendMessageToClient(string serverMessage)
         {

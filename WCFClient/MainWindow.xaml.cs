@@ -38,7 +38,7 @@ namespace WCFClient
         }
         public void PrintMessage()
         {
-            ChatroomTextBlock.Text += "\n" + viewModel.ReturnServerMessageInViewModel() + "lul";
+            ChatroomTextBlock.Text += "\n" + viewModel.ReturnServerMessageInViewModel();
         }
         private void SendMessageButton_Click(object sender, RoutedEventArgs e)
         {

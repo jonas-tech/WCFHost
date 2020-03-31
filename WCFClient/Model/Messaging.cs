@@ -15,12 +15,11 @@ namespace WCFClient.Model
 
         string userMessage;
         string fullMessage;
-        //public ChatClient client = new ChatClient() { messaging =};
         public ViewModelMessaging viewModelMessageing;
 
         public Messaging()
         {
-            context = new InstanceContext(new ChatClient());
+            context = new InstanceContext(new ChatClient() { messaging = this} );
             server = new Proxy.ServiceClient(context);
         }
 
