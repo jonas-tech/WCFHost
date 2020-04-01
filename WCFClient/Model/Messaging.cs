@@ -4,14 +4,15 @@ using System.Linq;
 using System.ServiceModel;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WCFClient.ViewModel;
 
 namespace WCFClient.Model
 {
     public class Messaging
     {
-        InstanceContext context;
-        Proxy.ServiceClient server;
+        readonly InstanceContext context;
+        readonly Proxy.ServiceClient server;
 
         string userMessage;
         string fullMessage;
@@ -27,9 +28,23 @@ namespace WCFClient.Model
         string userName;
         public void LogInAndSaveUserName(string userName)
         {
-
-            this.userName = userName;
-            server.ClientLogIntoServer(userName);
+            try
+            {
+                this.userName = userName;
+                server.ClientLogIntoServer(userName);
+            }
+            catch (System.ServiceModel.Security.SecurityNegotiationException)
+            {
+                var result = MessageBox.Show("Der Server hat den Zugriff nicht gestattet.\nStarte diesen gegebenfalls erneutmit Administratorrechten. \nErneut versuchen ?","Exit",MessageBoxButton.YesNo);
+                if(result == MessageBoxResult.Yes)
+                {
+                    LogInAndSaveUserName(userName);
+                }
+                else
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }            
+            }
         }
         #endregion
         #region SenduserMessage
@@ -49,7 +64,24 @@ namespace WCFClient.Model
 
         public void SendFullMessageToInterfaces()
         {
-            server.ServerGetMessageFromClient(fullMessage);
+            try
+            {
+                server.ServerGetMessageFromClient(fullMessage);
+            }
+            catch (System.ServiceModel.CommunicationObjectFaultedException)
+            {
+
+                var result = MessageBox.Show("Es konnte nicht mit dem Service kommuniziert werden, evtl ist dieser in ein TimeOut gelaufen \n Erneut versuchen ?", "", MessageBoxButton.YesNo);
+                if (result == MessageBoxResult.Yes)
+                {
+                server.ServerGetMessageFromClient(fullMessage);
+
+                }
+                else
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
         }
         #endregion
         #region ReceiveMessageFromServer
@@ -64,8 +96,24 @@ namespace WCFClient.Model
         #region LogOut
         public void LogOutFromServer()
         {
-            server.ClientLogOutOfServer(userName);
-            this.userName = null;
+            try
+            {
+                server.ClientLogOutOfServer(userName);
+                this.userName = null;
+            }
+            catch (System.ServiceModel.CommunicationObjectFaultedException)
+            {
+                
+                var result = MessageBox.Show("Es konnte nicht mit dem Service kommuniziert werden, weil diser sich  im Faulted-Status befindet.\n Erneut versuchen ?","",MessageBoxButton.YesNo);
+                if(result == MessageBoxResult.Yes)
+                {
+                    LogOutFromServer();
+                }
+                else
+                {
+                    System.Windows.Application.Current.Shutdown();
+                }
+            }
         }
         #endregion LogOutCo
     }
